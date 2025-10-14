@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Komprehensif: Meningkatkan Kinerja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+   
+    <style>
+        :root {
+            --brand-color: #0369a1; 
+            --accent-color: #0ea5e9; 
+            --bg-light: #f0f9ff; 
+            --border-color: #e0f2fe; 
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .tab-btn {
+            transition: all 0.2s ease-in-out;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn.active {
+            border-bottom-color: var(--brand-color);
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+        .tab-panel {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hpt-step {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .hpt-step.active, .hpt-step:hover {
+            background-color: var(--bg-light);
+            border-color: var(--accent-color);
+        }
+        .accordion-header {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .accordion-header:hover {
+            background-color: #f1f5f9;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 500px; /* Adjust as needed */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-item.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .section-title-underline {
+            display: inline-block;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 4px;
+        }
+        .learner-card, .addie-step, .scenario-btn, .tech-card, .learning-loop-card, .video-select-btn, .quiz-option {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .addie-step {
+            cursor: pointer;
+        }
+        .addie-step:hover, .addie-step.active {
+            transform: translateY(-4px) scale(1.02);
+            background-color: var(--brand-color);
+            color: white;
+            box-shadow: 0 7px 15px -3px rgba(3, 105, 161, 0.2);
+        }
+        .scenario-btn.active {
+            background-color: var(--brand-color);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(3, 105, 161, 0.25);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .video-select-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            color: #475569; 
+        }
+        .video-select-btn:hover:not(.active-video-btn) {
+            background-color: #e2e8f0; 
+        }
+        .active-video-btn {
+            background-color: var(--brand-color);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(3, 105, 161, 0.25);
+        }
+        .quiz-option.selected {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--brand-color);
+            transform: scale(1.02);
+        }
+        .quiz-option.correct {
+            background-color: #10b981; 
+            color: white;
+            border-color: #059669; 
+        }
+        .quiz-option.incorrect {
+            background-color: #ef4444; 
+            color: white;
+            border-color: #dc2626; 
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Sound Effect Audio Elements -->
+    <audio id="correctSound" src="correct.mp3"></audio> 
+    <audio id="incorrectSound" src="non correct.mp3"></audio> <
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-10 md:mb-12">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-800 mb-3">Analisis Komprehensif: Meningkatkan Kinerja</h1>
+            <p class="text-lg sm:text-xl text-slate-600">Sebuah Telaah Mendalam dari Bab 3 "Improving Performance"</p>
+        </header>
+
+        <main class="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
+            <section class="mb-8 md:mb-10 border-b-2 border-slate-100 pb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">Paradigma Inti: Dari Pembelajaran ke Kinerja</h2>
+                <blockquote class="border-l-4 border-sky-600 pl-4 sm:pl-6 italic text-slate-700 text-base sm:text-lg">
+                    "Teknologi pendidikan adalah studi dan praktik etis untuk memfasilitasi pembelajaran dan <strong>meningkatkan kinerja</strong> dengan menciptakan, menggunakan, dan mengelola proses dan sumber daya teknologi yang sesuai."
+                </blockquote>
+                <p class="mt-5 text-slate-600 leading-relaxed text-sm sm:text-base">
+                    Penyertaan frasa "meningkatkan kinerja" dalam definisi AECT bukanlah sekadar tambahan, melainkan sebuah pergeseran paradigma. Ini adalah pengakuan formal bahwa tujuan akhir dari intervensi kita tidak berhenti saat pembelajaran terjadi, tetapi meluas hingga aplikasi pengetahuan dan keterampilan tersebut di dunia nyata untuk mencapai hasil yang terukur. Website ini adalah sebuah eksplorasi mendalam dari klaim tersebut, membedah bagaimana teknologi pendidikan, yang diperkuat oleh prinsip-prinsip Teknologi Kinerja Manusia (HPT), berupaya memenuhi janjinya pada tiga tingkatan: individu pembelajar, profesional perancang, dan organisasi secara keseluruhan.
+                </p>
+            </section>
+            
+            <div id="tabs">
+                <nav class="flex flex-wrap justify-center border-b-2 border-slate-200 mb-8 -mx-2 sm:-mx-4">
+                    <button data-target="panel-foundations" class="tab-btn active text-sm sm:text-base md:text-lg py-3 px-3 sm:px-5">📖 Fondasi</button>
+                    <button data-target="panel-learner" class="tab-btn text-sm sm:text-base md:text-lg py-3 px-3 sm:px-5">🚀 Pembelajar</button>
+                    <button data-target="panel-professional" class="tab-btn text-sm sm:text-base md:text-lg py-3 px-3 sm:px-5">🧑‍🏫 Profesional</button>
+                    <button data-target="panel-organization" class="tab-btn text-sm sm:text-base md:text-lg py-3 px-3 sm:px-5">🏢 Organisasi</button>
+                </nav>
+
+                <div id="panels">
+                    <!-- Foundations Panel -->
+                    <div id="panel-foundations" class="tab-panel">
+                        <div class="p-1 sm:p-2 fade-in">
+                            <h3 class="text-xl sm:text-2xl font-bold text-sky-800 mb-4"><span class="section-title-underline">Pilar Teoretis Kinerja</span></h3>
+                            <p class="mb-8 text-slate-600 leading-relaxed text-sm sm:text-base">Sebelum membahas aplikasi praktis, kita harus memahami tiga konsep fundamental yang menjadi landasan setiap upaya peningkatan kinerja. Konsep-konsep ini—dialektika efektivitas vs efisiensi, kualitas pembelajaran, dan tantangan transfer—adalah lensa kritis untuk menganalisis kompleksitas di balik tujuan "meningkatkan kinerja".</p>
+                            
+                            <div class="space-y-8 sm:space-y-10">
+                                 <div class="bg-slate-50 p-4 sm:p-6 rounded-lg border">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-3">1. Dialektika Efektivitas vs. Efisiensi ("Segitiga Besi")</h4>
+                                    <p class="mb-4 text-slate-600 text-sm sm:text-base">Setiap intervensi pendidikan menghadapi trade-off antara tiga metrik utama: efektivitas, efisiensi, dan daya tarik. Memahami dinamika ini mengubah peran desainer dari sekadar pencipta menjadi manajer sumber daya strategis.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm sm:text-base">
+                                        <div class="p-4 bg-white rounded-md shadow-sm"><strong>Efektivitas:</strong> Sejauh mana tujuan pembelajaran tercapai? Ini adalah ukuran kualitas hasil.</div>
+                                        <div class="p-4 bg-white rounded-md shadow-sm"><strong>Efisiensi:</strong> Berapa banyak sumber daya (waktu, biaya) yang diinvestasikan untuk mencapai hasil tersebut? Ini adalah ukuran proses.</div>
+                                        <div class="p-4 bg-white rounded-md shadow-sm"><strong>Daya Tarik:</strong> Seberapa menarik dan memotivasi pengalaman belajar bagi pembelajar? Ini adalah ukuran keterlibatan.</div>
+                                    </div>
+                                    <p class="mt-4 text-xs sm:text-sm italic text-slate-500">Contoh: Simulator penerbangan sangat efektif dan menarik, tetapi sangat tidak efisien dari segi biaya. Sebaliknya, manual PDF sangat efisien, tetapi kemungkinan besar tidak efektif dan tidak menarik.</p>
+                                </div>
+
+                                <div class="bg-slate-50 p-4 sm:p-6 rounded-lg border">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-3">2. Kualitas Pembelajaran: Permukaan (Surface) vs. Mendalam (Deep)</h4>
+                                    <p class="mb-4 text-slate-600 text-sm sm:text-base">Tidak semua pembelajaran diciptakan setara. Peningkatan kinerja yang bermakna bergantung pada <span class="font-semibold">pembelajaran mendalam</span>. Ini adalah jembatan kritis yang menegaskan bahwa hanya jenis pembelajaran tertentu yang memiliki potensi untuk meningkatkan kinerja di dunia nyata.</p>
+                                    <div class="overflow-x-auto text-sm sm:text-base">
+                                        <table class="w-full text-left border-collapse min-w-[600px]">
+                                            <thead class="bg-slate-200 text-slate-700">
+                                                <tr>
+                                                    <th class="p-3">Dimensi</th>
+                                                    <th class="p-3">Pembelajaran Permukaan (Surface)</th>
+                                                    <th class="p-3">Pembelajaran Mendalam (Deep)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-b"><td class="p-3 font-semibold">Motivasi</td><td class="p-3">Ekstrinsik: Menghindari kegagalan, memenuhi syarat minimum.</td><td class="p-3">Intrinsik: Minat tulus, keinginan untuk memahami.</td></tr>
+                                                <tr class="border-b bg-slate-50"><td class="p-3 font-semibold">Fokus Proses</td><td class="p-3">Menghafal fakta dan prosedur secara terpisah.</td><td class="p-3">Memahami hubungan antar konsep dan prinsip dasar.</td></tr>
+                                                <tr class="border-b"><td class="p-3 font-semibold">Hasil</td><td class="p-3">Pengetahuan terfragmentasi dan dangkal.</td><td class="p-3">Pemahaman terintegrasi, koheren, dan mendalam.</td></tr>
+                                                <tr class="bg-slate-50"><td class="p-3 font-semibold">Potensi Transfer</td><td class="p-3 text-red-600 font-medium">Sangat rendah; sulit diterapkan pada konteks baru.</td><td class="p-3 text-green-600 font-medium">Tinggi; prinsip dapat digeneralisasi ke masalah baru.</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 p-4 sm:p-6 rounded-lg border">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-3">3. Tantangan Transfer Pembelajaran</h4>
+                                    <p class="text-slate-600 text-sm sm:text-base">Transfer adalah "jembatan" antara pengetahuan yang diperoleh di ruang pelatihan dan aplikasi praktis di tempat kerja. Jembatan ini seringkali runtuh. Kegagalan transfer adalah alasan utama mengapa <span class="font-semibold">Teknologi Kinerja Manusia (HPT)</span> muncul, karena HPT mengakui bahwa transfer bukanlah proses otomatis—ia harus dirancang secara sengaja dengan mempertimbangkan tiga faktor kunci:</p>
+                                    <ul class="mt-4 list-disc list-inside space-y-2 text-slate-600 text-sm sm:text-base">
+                                        <li><strong>Kesesuaian Desain:</strong> Seberapa otentik lingkungan belajar? Simulasi dan praktik dalam konteks nyata meningkatkan kemungkinan transfer.</li>
+                                        <li><strong>Dukungan Lingkungan:</strong> Apa yang terjadi setelah pelatihan? Dukungan dari manajer, rekan kerja, dan sistem umpan balik sangat krusial.</li>
+                                        <li><strong>Karakteristik Pembelajar:</strong> Motivasi, efikasi diri, dan kemampuan metakognitif pembelajar juga memainkan peran penting.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Learner Panel -->
+                    <div id="panel-learner" class="tab-panel" style="display: none;">
+                        <div class="p-1 sm:p-2 fade-in">
+                            <h3 class="text-xl sm:text-2xl font-bold text-sky-800 mb-4"><span class="section-title-underline">Kinerja Pembelajar Individu</span></h3>
+                            <p class="mb-8 text-slate-600 leading-relaxed text-sm sm:text-base">Ini adalah tujuan paling fundamental dari teknologi pendidikan. Kita berupaya memindahkan pembelajar dari penguasaan pasif menuju keahlian aktif yang dapat diterapkan. Hal ini dicapai dengan merancang pengalaman yang mendorong pembelajaran mendalam dan memfasilitasi praktik yang otentik. Klik setiap kartu di bawah untuk eksplorasi lebih dalam.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 md:mb-10">
+                                <div class="learner-card p-4 sm:p-6 border rounded-lg cursor-pointer bg-sky-600 text-white shadow-md" data-key="effectiveness">
+                                    <h4 class="font-bold text-lg sm:text-xl mb-2">Efektivitas & Pembelajaran Mendalam</h4>
+                                    <p class="text-sky-100 text-sm sm:text-base">Mendorong penguasaan nyata melalui praktik yang disengaja dan umpan balik yang sering.</p>
+                                </div>
+                                <div class="learner-card p-4 sm:p-6 border rounded-lg cursor-pointer bg-white hover:shadow-lg hover:border-sky-400" data-key="authentic">
+                                    <h4 class="font-bold text-lg sm:text-xl mb-2 text-slate-800">Praktik Otentik & Simulasi</h4>
+                                    <p class="text-slate-600 text-sm sm:text-base">Menciptakan 'dunia mikro' yang aman untuk melatih keterampilan dalam konteks realistis.</p>
+                                </div>
+                                <div class="learner-card p-4 sm:p-6 border rounded-lg cursor-pointer bg-white hover:shadow-lg hover:border-sky-400" data-key="efficiency">
+                                    <h4 class="font-bold text-lg sm:text-xl mb-2 text-slate-800">Efisiensi & Umpan Balik Adaptif</h4>
+                                    <p class="text-slate-600 text-sm sm:text-base">Mengoptimalkan waktu belajar dengan menyesuaikan tingkat kesulitan secara real-time.</p>
+                                </div>
+                                <div class="learner-card p-4 sm:p-6 border rounded-lg cursor-pointer bg-white hover:shadow-lg hover:border-sky-400" data-key="appeal">
+                                    <h4 class="font-bold text-lg sm:text-xl mb-2 text-slate-800">Daya Tarik & Motivasi (ARCS)</h4>
+                                    <p class="text-slate-600 text-sm sm:text-base">Meningkatkan keterlibatan melalui gamifikasi, narasi interaktif, dan model desain motivasi.</p>
+                                </div>
+                            </div>
+                            <div id="learner-content" class="bg-sky-50 p-4 sm:p-6 rounded-lg border border-sky-200 min-h-[150px] sm:min-h-[200px]">
+                                <!-- Content will be loaded by JS -->
+                            </div>
+                            
+                             <div class="bg-slate-50 p-4 sm:p-6 rounded-lg border mt-8 sm:mt-10">
+                                <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-4 text-center">Taksonomi Bloom: Level Kemampuan Kognitif</h4>
+                                <p class="text-sm text-center text-slate-500 mb-4">Arahkan kursor ke setiap bar untuk melihat deskripsi.</p>
+                                <div class="chart-container h-[250px] sm:h-[350px]">
+                                    <canvas id="bloomChart"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <!-- Professional Panel -->
+                     <div id="panel-professional" class="tab-panel" style="display: none;">
+                         <div class="p-1 sm:p-2 fade-in">
+                            <h3 class="text-xl sm:text-2xl font-bold text-sky-800 mb-4"><span class="section-title-underline">Kinerja Arsitek Pembelajaran</span></h3>
+                             <p class="mb-8 text-slate-600 leading-relaxed text-sm sm:text-base">Peningkatan kinerja tidak hanya untuk pembelajar, tetapi juga untuk para profesional yang merancang pengalaman belajar: guru dan desainer instruksional. Dengan meningkatkan kinerja para arsitek ini melalui proses sistematis dan praktik reflektif, kualitas hasil bagi pembelajar akan meningkat secara inheren.</p>
+
+                             <div class="space-y-8 sm:space-y-10">
+                                <div class="bg-slate-50 p-4 sm:p-6 rounded-lg border">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-3">1. Proses Sistematis: Model ADDIE</h4>
+                                    <p class="mb-6 text-slate-600 text-sm sm:text-base">Model Desain Sistem Instruksional (ISD) seperti ADDIE menyediakan kerangka kerja terstruktur. Ini adalah "teknologi proses" yang menanamkan disiplin. Klik setiap fase untuk detailnya.</p>
+                                    
+                                    <div class="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center text-center gap-2 mb-4 text-sm sm:text-base">
+                                        <div class="addie-step active w-full sm:flex-1 p-3 bg-white border rounded-lg shadow-sm" data-content="analysis"><strong>Analysis</strong></div>
+                                        <div class="text-slate-300 font-bold text-2xl rotate-90 sm:rotate-0">&rarr;</div>
+                                        <div class="addie-step w-full sm:flex-1 p-3 bg-white border rounded-lg shadow-sm" data-content="design"><strong>Design</strong></div>
+                                        <div class="text-slate-300 font-bold text-2xl rotate-90 sm:rotate-0">&rarr;</div>
+                                        <div class="addie-step w-full sm:flex-1 p-3 bg-white border rounded-lg shadow-sm" data-content="development"><strong>Development</strong></div>
+                                        <div class="text-slate-300 font-bold text-2xl mt-2 sm:hidden">&darr;</div>
+                                        <div class="text-slate-300 font-bold text-2xl hidden sm:block">&rarr;</div>
+                                        <div class="addie-step w-full sm:flex-1 p-3 bg-white border rounded-lg shadow-sm" data-content="implementation"><strong>Implementation</strong></div>
+                                        <div class="text-slate-300 font-bold text-2xl rotate-90 sm:rotate-0">&rarr;</div>
+                                        <div class="addie-step w-full sm:flex-1 p-3 bg-white border rounded-lg shadow-sm" data-content="evaluation"><strong>Evaluation</strong></div>
+                                    </div>
+                                    <div id="addie-content" class="bg-white p-4 rounded-md shadow-inner min-h-[120px] text-slate-600 text-sm sm:text-base">
+                                        <!-- Content updated by JS -->
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 p-4 sm:p-6 rounded-lg border">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-3">2. Praktik Reflektif: Peningkatan Berkelanjutan</h4>
+                                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">Mesin utama untuk pertumbuhan profesional adalah praktik reflektif. Ini adalah siklus berkelanjutan di mana praktisi secara sadar: <br> 1) Menerapkan solusi, <br> 2) Mengumpulkan data tentang hasilnya, dan <br> 3) Merefleksikan data tersebut untuk menginformasikan tindakan di masa depan. <br><br> Ini mengubah guru dan desainer dari sekadar penyampai konten menjadi <span class="font-semibold">peneliti dalam praktik mereka sendiri</span>. Teknologi (misalnya, analitik LMS, survei online) memainkan peran penting dalam memfasilitasi pengumpulan dan analisis data ini.</p>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Organization Panel -->
+                    <div id="panel-organization" class="tab-panel" style="display: none;">
+                        <div class="p-1 sm:p-2 fade-in">
+                             <h3 class="text-xl sm:text-2xl font-bold text-sky-800 mb-4"><span class="section-title-underline">Perspektif Sistemik Kinerja Organisasi</span></h3>
+                             <p class="mb-8 text-slate-600 leading-relaxed text-sm sm:text-base">Puncak dari argumen bab ini adalah pandangan makro tentang bagaimana Teknologi Pendidikan, melalui lensa Teknologi Kinerja Manusia (HPT), mendorong peningkatan kinerja di seluruh organisasi. Ini mengakui bahwa kinerja individu yang luar biasa dapat terhambat oleh sistem yang dirancang buruk. Oleh karena itu, intervensi harus menargetkan sistem itu sendiri.</p>
+
+                             <div class="space-y-10 md:space-y-12">
+                                <div>
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-4">Paradigma HPT: Pendekatan Holistik</h4>
+                                    <p class="mb-6 text-slate-600 text-sm sm:text-base">HPT berbeda secara fundamental dari pendekatan pelatihan tradisional. Alih-alih langsung berasumsi bahwa masalah kinerja disebabkan oleh kurangnya pengetahuan (dan solusinya adalah pelatihan), HPT memulai tanpa asumsi. Ia bertanya: <span class="italic">"Mengapa kesenjangan antara kinerja yang diinginkan dan kinerja aktual ini ada?"</span></p>
+                                    <div class="overflow-x-auto text-sm sm:text-base">
+                                        <table class="w-full text-left border-collapse min-w-[700px]">
+                                            <thead class="bg-slate-200 text-slate-700">
+                                                <tr><th class="p-3">Atribut</th><th class="p-3">Pendekatan Tradisional (Berbasis Pelatihan)</th><th class="p-3">Pendekatan Teknologi Kinerja Manusia (HPT)</th></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-b"><td class="p-3 font-semibold">Asumsi Penyebab</td><td class="p-3">Kekurangan pengetahuan/keterampilan individu.</td><td class="p-3">Bisa jadi kurang pengetahuan, tapi lebih sering faktor lingkungan (alat, insentif, ekspektasi).</td></tr>
+                                                <tr class="border-b bg-slate-50"><td class="p-3 font-semibold">Solusi Utama</td><td class="p-3">Pelatihan (kursus, lokakarya, e-learning).</td><td class="p-3">Berbagai intervensi, baik instruksional maupun non-instruksional.</td></tr>
+                                                <tr class="border-b"><td class="p-3 font-semibold">Peran Praktisi</td><td class="p-3">Desainer dan penyampai pelatihan.</td><td class="p-3">Konsultan kinerja, analis, dan desainer solusi.</td></tr>
+                                                <tr class="bg-slate-50"><td class="p-3 font-semibold">Metrik Sukses</td><td class="p-3">Penyelesaian pelatihan, skor tes.</td><td class="p-3">Penutupan kesenjangan kinerja, dampak bisnis, ROI.</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-4 sm:p-6 rounded-lg border">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-4 text-center">Teknologi: Hard vs. Soft</h4>
+                                    <p class="mb-6 text-slate-600 text-sm sm:text-base text-center max-w-2xl mx-auto">Peningkatan kinerja organisasi didukung oleh dua jenis teknologi yang saling melengkapi:</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                                        <div class="tech-card bg-slate-50 rounded-lg p-6 flex flex-col items-center text-center border hover:shadow-lg hover:border-sky-300">
+                                            <div class="text-4xl mb-3">💻</div>
+                                            <h5 class="font-bold text-lg text-slate-800">Hard Technology</h5>
+                                            <p class="text-sm text-slate-600 mt-2">Alat fisik dan digital seperti ICT, Learning Management Systems (LMS), platform video, dan perangkat keras lainnya yang menjadi infrastruktur.</p>
+                                        </div>
+                                        <div class="tech-card bg-slate-50 rounded-lg p-6 flex flex-col items-center text-center border hover:shadow-lg hover:border-sky-300">
+                                            <div class="text-4xl mb-3">⚙️</div>
+                                            <h5 class="font-bold text-lg text-slate-800">Soft Technology</h5>
+                                            <p class="text-sm text-slate-600 mt-2">Proses dan metode sistematis seperti model desain instruksional (ADDIE), manajemen proyek, dan strategi organisasi kerja yang efisien.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-4 sm:p-6 rounded-lg border">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-4 text-center">Membangun Organisasi Pembelajar</h4>
+                                    <p class="mb-8 text-slate-600 text-sm sm:text-base text-center max-w-2xl mx-auto">Organisasi yang adaptif adalah yang mampu belajar dari kesalahannya dan berinovasi. Ini adalah sebuah progresi kedewasaan organisasi.</p>
+                                    <div class="flex flex-col md:flex-row justify-center items-stretch gap-0 md:gap-4 max-w-5xl mx-auto">
+                                        <div class="learning-loop-card flex-1 bg-sky-50 p-6 rounded-t-lg md:rounded-lg text-center border border-sky-200 hover:scale-105">
+                                            <h5 class="font-bold text-sky-800">1. Single-Loop Learning</h5>
+                                            <p class="text-sm font-semibold text-sky-600 italic mt-1 mb-3">"Apakah kita melakukan hal ini dengan benar?"</p>
+                                            <p class="text-sm text-sky-700">Fokus pada perbaikan kesalahan atau masalah spesifik dalam proses yang sudah ada untuk mengembalikan ke standar.</p>
+                                        </div>
+                                        <div class="text-center text-2xl text-slate-300 -my-2 md:my-auto">→</div>
+                                        <div class="learning-loop-card flex-1 bg-sky-100 p-6 md:rounded-lg text-center border border-sky-300 hover:scale-105">
+                                            <h5 class="font-bold text-sky-800">2. Double-Loop Learning</h5>
+                                            <p class="text-sm font-semibold text-sky-600 italic mt-1 mb-3">"Apakah kita melakukan hal yang benar?"</p>
+                                            <p class="text-sm text-sky-700">Fokus pada mempertanyakan, menantang, dan mengubah asumsi, aturan, atau sistem yang mendasari masalah.</p>
+                                        </div>
+                                        <div class="text-center text-2xl text-slate-300 -my-2 md:my-auto">→</div>
+                                        <div class="learning-loop-card flex-1 bg-sky-200 p-6 rounded-b-lg md:rounded-lg text-center border border-sky-400 hover:scale-105">
+                                           <h5 class="font-bold text-sky-900">3. Generative Learning</h5>
+                                           <p class="text-sm font-semibold text-sky-700 italic mt-1 mb-3">"Bagaimana kita bisa menciptakan masa depan?"</p>
+                                           <p class="text-sm text-sky-800">Fokus pada penciptaan budaya inovasi dan adaptasi berkelanjutan, di mana belajar menjadi bagian dari DNA organisasi.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-sky-50 p-4 sm:p-6 rounded-lg border border-sky-200">
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-3 text-center">Interaktif: Proses Analisis Penyebab HPT</h4>
+                                    <p class="mb-6 text-slate-600 text-center text-sm sm:text-base">Jalani alur pikir seorang praktisi HPT. Mulai dari masalah kinerja, lalu klik untuk mendiagnosis kemungkinan penyebabnya.</p>
+                                    <div id="hpt-flow" class="space-y-4 text-sm sm:text-base">
+                                        <div class="hpt-step p-3 sm:p-4 border rounded-lg text-center" data-step="1"><strong>Masalah Kinerja:</strong> "Tim penjualan tidak menjual produk baru."</div>
+                                        <div id="hpt-step-2-options" class="hidden justify-center gap-4 text-center">
+                                            <div class="text-slate-400 text-2xl mt-2">&darr;</div>
+                                        </div>
+                                        <div class="hpt-step p-3 sm:p-4 border rounded-lg text-center hidden" data-step="2"><strong>Analisis Awal:</strong> Apakah ini masalah Pengetahuan/Keterampilan? <br><button class="hpt-choice mt-2 px-3 py-1 bg-white border rounded-full text-xs sm:text-sm" data-choice="yes">Ya</button> <button class="hpt-choice mt-2 px-3 py-1 bg-white border rounded-full text-xs sm:text-sm" data-choice="no">Tidak</button></div>
+                                        <div id="hpt-result" class="mt-4 p-4 bg-white rounded-md shadow-inner text-center min-h-[50px]"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-lg sm:text-xl font-semibold text-slate-700 mb-4">Ragam Intervensi Kinerja: Di Luar Pelatihan</h4>
+                                    <p class="mb-6 text-slate-600 text-sm sm:text-base">Setelah akar masalah diidentifikasi, HPT menawarkan kotak perkakas solusi yang jauh lebih luas daripada sekadar pelatihan. Seringkali, solusi paling efektif sama sekali bukan bersifat instruksional. Jelajahi beberapa intervensi non-instruksional di bawah ini.</p>
+                                    <div id="interventions-accordion" class="border rounded-lg overflow-hidden">
+                                        <!-- Accordion items generated by JS -->
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- YouTube Video Section -->
+        <section class="mt-10 md:mt-12">
+            <div class="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
+                <h3 class="text-xl sm:text-2xl font-bold text-sky-800 mb-4 text-center"><span class="section-title-underline">Galeri Video Pelengkap</span></h3>
+                 <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto text-sm sm:text-base">Untuk memperdalam pemahaman, saksikan video-video berikut yang membahas konsep-konsep kunci terkait peningkatan kinerja.</p>
+                
+                <div class="mx-auto max-w-5xl rounded-lg overflow-hidden shadow-lg aspect-video">
+                    <iframe 
+                        id="video-player"
+                        class="w-full h-full"
+                        src="https://www.youtube.com/embed/m1kYFPENtoQ" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <div id="video-selector" class="inline-flex rounded-lg bg-slate-100 p-1 space-x-1">
+                        <button class="video-select-btn active-video-btn" data-src="https://www.youtube.com/embed/m1kYFPENtoQ" data-title="Model ADDIE">
+                            Video 1
+                        </button>
+                        <button class="video-select-btn" data-src="https://www.youtube.com/embed/y8PiUTcNQls" data-title="Pengantar Human Performance Technology (HPT)">
+                            Video 2
+                        </button>
+                        <button class="video-select-btn" data-src="https://www.youtube.com/embed/JB6aDdq3HTI" data-title="Konsep Deep Learning vs. Surface Learning">
+                            Video 3
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- QUIZ SECTION -->
+        <section id="quiz-section" class="mt-10 md:mt-12">
+            <div class="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
+                <h3 class="text-xl sm:text-2xl font-bold text-sky-800 mb-6 text-center"><span class="section-title-underline">Uji Pemahaman Anda</span></h3>
+                 <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto text-sm sm:text-base">Setelah mempelajari semua materi, saatnya menguji pengetahuan Anda. Kuis ini berisi 50 soal acak yang mencakup semua konsep.</p>
+                
+                <div id="quiz-container" class="mt-8 max-w-4xl mx-auto hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                        <h4 id="question-number" class="text-lg font-bold text-sky-700 mb-2 sm:mb-0">Soal 1 dari 50</h4>
+                        <div id="score-display" class="text-base font-semibold bg-sky-100 text-sky-800 px-3 py-1 rounded-full">Skor: 0</div>
+                    </div>
+                    <p id="question-text" class="text-lg sm:text-xl mb-6 min-h-[50px] font-medium text-slate-800"></p>
+                    <div id="answer-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                        <!-- Options will be dynamically inserted here -->
+                    </div>
+                    <div id="feedback-container" class="mt-6 p-4 rounded-md text-center font-medium hidden text-sm sm:text-base"></div>
+                    <div class="mt-6 text-center">
+                        <button id="next-btn" class="bg-sky-600 text-white font-bold py-2 px-8 rounded-lg hover:bg-sky-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">Periksa Jawaban</button>
+                    </div>
+                </div>
+
+                <div id="start-quiz-container" class="text-center">
+                     <button id="start-btn" class="bg-sky-600 text-white font-bold py-3 px-10 rounded-lg hover:bg-sky-700 transition-transform duration-200 hover:scale-105">Mulai Kuis</button>
+                </div>
+
+                <div id="results-container" class="hidden text-center">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-sky-800">Kuis Selesai!</h3>
+                    <p class="mt-4 text-lg">Skor akhir Anda adalah:</p>
+                    <div class="my-6 text-5xl sm:text-6xl font-extrabold text-sky-600">
+                        <span id="final-score">0</span> / <span id="total-questions">50</span>
+                    </div>
+                    <p id="result-message" class="text-base sm:text-lg mb-8"></p>
+                    <button id="restart-btn" class="bg-sky-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-sky-700 transition-colors duration-200">Ulangi Kuis</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let bloomChart, arcsChart;
+            
+            function setupTabs() {
+                const tabs = document.querySelectorAll('.tab-btn');
+                const panels = document.querySelectorAll('.tab-panel');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        const targetPanel = document.getElementById(tab.dataset.target);
+                        panels.forEach(panel => {
+                            panel.style.display = 'none';
+                            panel.classList.remove('fade-in');
+                        });
+                        targetPanel.style.display = 'block';
+                        setTimeout(() => targetPanel.classList.add('fade-in'), 10);
+
+                        if (tab.dataset.target === 'panel-learner' && !bloomChart) {
+                            createBloomChart();
+                        }
+                    });
+                });
+            }
+            
+            function setupLearnerPanel() {
+                const cardContainer = document.querySelector('#panel-learner .grid');
+                const contentContainer = document.getElementById('learner-content');
+                if (!cardContainer || !contentContainer) return;
+
+                const learnerData = {
+                    effectiveness: { title: "Efektivitas & Pembelajaran Mendalam", content: "Ini adalah ukuran kualitas hasil—apakah pembelajar benar-benar menguasai tujuan? Teknologi mendorong ini melalui <strong>praktik yang disengaja (deliberate practice)</strong> dan <strong>umpan balik yang sering dan segera</strong>. Sistem tutorial cerdas, misalnya, memberikan umpan balik instan pada setiap langkah pemecahan masalah, mengoreksi kesalahpahaman sebelum menjadi kebiasaan dan mendorong pembelajaran mendalam yang diperlukan untuk kinerja nyata."},
+                    authentic: { title: "Praktik Otentik & Simulasi", content: "Teknologi secara unik mampu menciptakan 'dunia mikro' atau lingkungan simulasi yang aman. Di sini, pembelajar dapat mempraktikkan keterampilan dalam konteks realistis tanpa konsekuensi dunia nyata. Contohnya termasuk simulasi medis untuk prosedur bedah, simulator penerbangan untuk kondisi darurat, atau simulasi negosiasi bisnis dengan avatar AI. Lingkungan ini menjembatani kesenjangan antara teori dan praktik, mempercepat pengembangan keahlian."},
+                    efficiency: { title: "Efisiensi & Umpan Balik Adaptif", content: "Efisiensi berarti mencapai hasil dengan sumber daya yang lebih sedikit. Teknologi memungkinkan ini melalui <strong>umpan balik adaptif</strong>. Sistem canggih dapat menyesuaikan tingkat kesulitan atau jenis dukungan secara real-time berdasarkan kinerja pembelajar. Jika seorang pembelajar kesulitan, sistem memberikan petunjuk; jika mahir, sistem memberikan tantangan yang lebih kompleks. Personalisasi ini menjaga pembelajar dalam 'zona perkembangan proksimal' mereka, mengoptimalkan waktu belajar."},
+                    appeal: { title: "Daya Tarik & Motivasi (ARCS)", content: "Pembelajaran yang menarik secara emosional dan kognitif lebih mungkin untuk dipertahankan. Teknologi meningkatkan daya tarik melalui gamifikasi, narasi interaktif, dan model desain motivasi seperti <strong>Model ARCS Keller</strong>. <div class='mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center'><div class='chart-container !h-48 sm:!h-56'><canvas id='arcsChart'></canvas></div><div id='arcs-details' class='p-3 bg-sky-100 border-l-4 border-sky-500 rounded-r-lg min-h-[100px] text-sm'></div></div>"}
+                };
+
+                const updateLearnerContent = (key) => {
+                    const data = learnerData[key];
+                    contentContainer.innerHTML = `<h4 class="text-lg sm:text-xl font-bold text-sky-800 mb-3">${data.title}</h4><div class="text-slate-700 leading-relaxed text-sm sm:text-base">${data.content}</div>`;
+                    if (key === 'appeal') {
+                        createArcsChart();
+                    }
+                };
+                
+                cardContainer.addEventListener('click', (e) => {
+                    const card = e.target.closest('.learner-card');
+                    if (card) {
+                        cardContainer.querySelectorAll('.learner-card').forEach(c => {
+                            c.classList.remove('bg-sky-600', 'text-white', 'shadow-md');
+                            c.classList.add('bg-white');
+                            c.querySelector('h4').classList.add('text-slate-800');
+                            c.querySelector('p').classList.add('text-slate-600');
+                             c.querySelector('p').classList.remove('text-sky-100');
+                        });
+                        card.classList.add('bg-sky-600', 'text-white', 'shadow-md');
+                        card.classList.remove('bg-white');
+                        card.querySelector('h4').classList.remove('text-slate-800');
+                        card.querySelector('p').classList.remove('text-slate-600');
+                        card.querySelector('p').classList.add('text-sky-100');
+                        updateLearnerContent(card.dataset.key);
+                    }
+                });
+                
+                updateLearnerContent('effectiveness');
+            }
+
+            function setupProfessionalPanel() {
+                const addieSteps = document.querySelectorAll('.addie-step');
+                const addieContent = document.getElementById('addie-content');
+                 if (!addieSteps.length || !addieContent) return;
+
+                const addieData = {
+                    analysis: { title: 'Fase Analisis', content: 'Di sini, desainer mengidentifikasi masalah, menentukan kebutuhan belajar, dan menganalisis karakteristik audiens. Tujuannya adalah memastikan solusi yang dirancang benar-benar relevan dan tepat sasaran. Alat yang digunakan bisa berupa survei, wawancara, atau observasi.' },
+                    design: { title: 'Fase Desain', content: 'Fase ini adalah cetak biru pembelajaran. Desainer merumuskan tujuan pembelajaran yang terukur (ABCD method), memilih strategi instruksional, merancang alur materi, dan membuat storyboard. Outputnya adalah spesifikasi detail untuk materi yang akan dikembangkan.' },
+                    development: { title: 'Fase Pengembangan', content: 'Pada tahap ini, semua materi pembelajaran dibuat sesuai dengan cetak biru dari fase desain. Ini melibatkan pembuatan grafik, produksi video, pemrograman e-learning, dan penulisan konten. Alat bantu seperti Articulate Storyline atau Adobe Captivate sangat mempercepat proses ini.' },
+                    implementation: { title: 'Fase Implementasi', content: 'Materi pembelajaran yang sudah jadi disampaikan kepada peserta didik. Ini bisa melalui Learning Management System (LMS), pelatihan tatap muka, atau platform online. Fase ini juga mencakup persiapan fasilitator dan lingkungan belajar.' },
+                    evaluation: { title: 'Fase Evaluasi', content: 'Evaluasi dilakukan untuk mengukur efektivitas dan efisiensi pembelajaran. Evaluasi formatif terjadi di sepanjang proses untuk perbaikan, sementara evaluasi sumatif dilakukan di akhir untuk mengukur pencapaian tujuan. Model Kirkpatrick sering digunakan di sini.' }
+                };
+                
+                const updateAddieContent = (key) => {
+                    const data = addieData[key];
+                    addieContent.innerHTML = `<h5 class="font-bold text-slate-800 mb-2">${data.title}</h5><p>${data.content}</p>`;
+                };
+                
+                addieSteps.forEach(step => {
+                    step.addEventListener('click', () => {
+                        addieSteps.forEach(s => s.classList.remove('active'));
+                        step.classList.add('active');
+                        updateAddieContent(step.dataset.content);
+                    });
+                });
+                updateAddieContent('analysis');
+            }
+
+            function setupOrganizationPanel() {
+                const hptFlow = document.getElementById('hpt-flow');
+                if (hptFlow) {
+                    const step1 = hptFlow.querySelector('[data-step="1"]');
+                    const step2Options = document.getElementById('hpt-step-2-options');
+                    const step2 = hptFlow.querySelector('[data-step="2"]');
+                    const hptResult = document.getElementById('hpt-result');
+                    
+                    const resetHPT = () => {
+                        step2.classList.add('hidden');
+                        step2Options.classList.add('hidden');
+                        hptResult.innerHTML = '';
+                    };
+                    step1.addEventListener('click', () => {
+                        if (step2.classList.contains('hidden')) {
+                            step2.classList.remove('hidden');
+                            step2Options.classList.remove('hidden');
+                        } else {
+                            resetHPT();
+                        }
+                    });
+                    hptFlow.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('hpt-choice')) {
+                            const choice = e.target.dataset.choice;
+                            if (choice === 'yes') {
+                                hptResult.innerHTML = "<strong>Solusi:</strong> Intervensi Instruksional. <br> Pelatihan tentang fitur produk baru, mungkin melalui e-learning atau lokakarya singkat.";
+                            } else {
+                                hptResult.innerHTML = "<strong>Penyebab Kemungkinan:</strong> Faktor Lingkungan. <br> <strong>Contoh:</strong> Sistem komisi yang ada memberi insentif lebih besar untuk menjual produk lama. <br> <strong>Solusi:</strong> Intervensi Non-Instruksional (desain ulang rencana komisi).";
+                            }
+                        }
+                    });
+                }
+
+                const accordionContainer = document.getElementById('interventions-accordion');
+                if (accordionContainer) {
+                    const interventions = {
+                        jobAids: { title: 'Bantuan Kerja (Job Aids)', content: 'Alat yang memandu pekerja melalui proses kompleks saat dibutuhkan, mengurangi beban kognitif. Contoh: Daftar periksa, panduan referensi cepat, atau wizard perangkat lunak.' },
+                        feedback: { title: 'Sistem Umpan Balik', content: 'Merancang mekanisme yang memberikan informasi yang teratur, spesifik, dan dapat ditindaklanjuti kepada pekerja tentang kinerja mereka untuk mendorong perbaikan mandiri.' },
+                        incentives: { title: 'Penyesuaian Insentif & Konsekuensi', content: 'Menyelaraskan sistem penghargaan, bonus, atau pengakuan dengan perilaku dan hasil yang diinginkan organisasi. Ini memastikan motivasi terarah pada tujuan yang benar.' },
+                        processRedesign: { title: 'Desain Ulang Proses Kerja', content: 'Menganalisis dan menyederhanakan alur kerja untuk menghilangkan langkah-langkah yang tidak perlu, mengurangi hambatan, dan meningkatkan efisiensi secara keseluruhan.' }
+                    };
+                    
+                    Object.keys(interventions).forEach((key) => {
+                        const item = document.createElement('div');
+                        item.className = 'accordion-item border-b last:border-b-0';
+                        item.innerHTML = `<div class="accordion-header flex justify-between items-center p-4"><h5 class="font-semibold text-slate-700 text-sm sm:text-base">${interventions[key].title}</h5><span class="accordion-arrow text-slate-500 transition-transform duration-300">▼</span></div><div class="accordion-content px-4 text-slate-600 text-sm"><p>${interventions[key].content}</p></div>`;
+                        accordionContainer.appendChild(item);
+                    });
+
+                    accordionContainer.addEventListener('click', (e) => {
+                        const header = e.target.closest('.accordion-header');
+                        if (header) {
+                            const item = header.parentElement;
+                            const wasActive = item.classList.contains('active');
+                            accordionContainer.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+                            if (!wasActive) {
+                                item.classList.add('active');
+                            }
+                        }
+                    });
+                }
+            }
+            
+            function setupVideoSelector() {
+                const player = document.getElementById('video-player');
+                const selector = document.getElementById('video-selector');
+                if (!player || !selector) return;
+
+                const buttons = selector.querySelectorAll('.video-select-btn');
+
+                selector.addEventListener('click', (e) => {
+                    const button = e.target.closest('.video-select-btn');
+                    if (!button) return;
+
+                    const newSrc = button.dataset.src;
+                    player.src = newSrc;
+                    
+                    buttons.forEach(btn => btn.classList.remove('active-video-btn'));
+                    button.classList.add('active-video-btn');
+                });
+            }
+            
+            function setupQuiz() {
+                const quizSection = document.getElementById('quiz-section');
+                if (!quizSection) return;
+                
+                const fullQuizData = [
+                    { question: "Menurut definisi AECT, dua tujuan utama dari Teknologi Pendidikan adalah...", options: ["Menggunakan gadget terbaru dan membuat pembelajaran menyenangkan", "Menggantikan guru dan mengurangi biaya sekolah", "Memfasilitasi pembelajaran dan meningkatkan kinerja", "Membuat konten digital dan mengelola LMS"], correctAnswer: "Memfasilitasi pembelajaran dan meningkatkan kinerja", rationale: "Definisi AECT secara eksplisit menyebutkan 'memfasilitasi pembelajaran' dan 'meningkatkan kinerja' sebagai pilar kembar dari bidang ini." },
+                    { question: "Seorang mahasiswa hanya membaca ringkasan bab untuk lulus ujian pilihan ganda tanpa benar-benar memahami konsepnya. Ini adalah contoh dari...", options: ["Deep Learning", "Surface Learning", "Transfer of Learning", "Reflective Practice"], correctAnswer: "Surface Learning", rationale: "Surface learning berfokus pada hafalan untuk memenuhi persyaratan jangka pendek, tanpa pemahaman mendalam yang diperlukan untuk aplikasi nyata." },
+                    { question: "Dalam Taksonomi Bloom (revisi), kemampuan untuk membenarkan sebuah keputusan atau mempertahankan suatu sikap berada pada level...", options: ["Mengaplikasi (Apply)", "Menganalisis (Analyze)", "Mengevaluasi (Evaluate)", "Mencipta (Create)"], correctAnswer: "Mengevaluasi (Evaluate)", rationale: "Mengevaluasi melibatkan pembuatan penilaian berdasarkan kriteria dan standar, yang mencakup kegiatan seperti mengkritik dan mempertahankan argumen." },
+                    { question: "Konsep 'Segitiga Besi' dalam desain instruksional menggambarkan trade-off antara...", options: ["Teknologi, Pedagogi, dan Konten", "Analisis, Desain, dan Pengembangan", "Efektivitas, Efisiensi, dan Daya Tarik", "Siswa, Guru, dan Administrator"], correctAnswer: "Efektivitas, Efisiensi, dan Daya Tarik", rationale: "Segitiga ini menyoroti bahwa sulit untuk memaksimalkan kualitas (efektivitas), kecepatan/biaya (efisiensi), dan keterlibatan (daya tarik) secara bersamaan." },
+                    { question: "Studi Kasus: Sebuah rumah sakit menerapkan sistem rekam medis elektronik baru (Hard Technology) tetapi para perawat kesulitan menggunakannya. Apa contoh 'Soft Technology' yang dapat membantu?", options: ["Membeli komputer yang lebih cepat", "Menyediakan pelatihan sistematis (model ISD) dan job aids", "Menambah jumlah perawat", "Kembali ke sistem kertas"], correctAnswer: "Menyediakan pelatihan sistematis (model ISD) dan job aids", rationale: "Soft technology adalah tentang proses. Pelatihan yang dirancang dengan baik (ISD) dan alat bantu kerja (job aids) adalah contoh intervensi proses untuk mendukung penggunaan hard technology." },
+                    { question: "Ketika sebuah tim penjualan terus gagal mencapai target, dan manajemen merespons dengan mengubah struktur komisi (insentif) daripada mengadakan pelatihan. Ini adalah contoh pemikiran...", options: ["Berbasis Pelatihan Tradisional", "Teknologi Kinerja Manusia (HPT)", "Manajemen Mikro", "Taksonomi Bloom"], correctAnswer: "Teknologi Kinerja Manusia (HPT)", rationale: "Pendekatan HPT menganalisis semua kemungkinan penyebab, termasuk insentif, sebelum memilih intervensi. Ini menunjukkan pemahaman bahwa masalahnya mungkin bukan kurangnya keterampilan." },
+                    { question: "Seorang guru menyadari bahwa siswanya kesulitan memahami konsep abstrak. Dia kemudian merefleksikan metode mengajarnya dan memutuskan untuk mencoba pendekatan berbasis simulasi. Ini adalah contoh...", options: ["Praktik Reflektif", "Evaluasi Sumatif", "Surface Learning", "Single-Loop Learning"], correctAnswer: "Praktik Reflektif", rationale: "Praktik reflektif adalah siklus mengidentifikasi masalah, mencoba solusi baru berdasarkan data/observasi, dan mengevaluasi hasilnya untuk perbaikan berkelanjutan." },
+                    { question: "'Microworlds' atau simulasi virtual paling efektif untuk mendukung...", options: ["Menghafal tanggal sejarah", "Praktik otentik dan transfer pembelajaran", "Menyelesaikan kuis pilihan ganda", "Mendengarkan ceramah"], correctAnswer: "Praktik otentik dan transfer pembelajaran", rationale: "Simulasi memungkinkan pembelajar untuk berlatih keterampilan dalam konteks yang realistis dan aman, yang secara langsung memfasilitasi transfer ke dunia nyata." },
+                    { question: "Dalam model ARCS, memberikan pilihan kepada siswa tentang bagaimana mereka ingin menunjukkan pemahaman mereka (misalnya, melalui esai, video, atau presentasi) terutama akan meningkatkan...", options: ["Attention", "Relevance", "Confidence", "Satisfaction"], correctAnswer: "Satisfaction", rationale: "Memberikan kontrol dan pilihan kepada pembelajar dapat meningkatkan rasa kepemilikan dan kepuasan intrinsik mereka terhadap proses belajar." },
+                    { question: "Seorang manajer yang hanya fokus memperbaiki kesalahan individu tanpa mempertanyakan apakah proses kerja itu sendiri yang menyebabkan kesalahan tersebut, sedang menerapkan...", options: ["Double-Loop Learning", "Generative Learning", "Single-Loop Learning", "HPT"], correctAnswer: "Single-Loop Learning", rationale: "Single-loop learning memperbaiki gejala ('apakah kita melakukan hal ini dengan benar?') tanpa mengatasi akar penyebab sistemik ('apakah kita melakukan hal yang benar?')." },
+                    { question: "Umpan balik yang adaptif dalam sebuah sistem e-learning berarti...", options: ["Semua siswa menerima umpan balik yang sama", "Sistem menyesuaikan kesulitan soal atau petunjuk berdasarkan respons siswa", "Umpan balik hanya diberikan di akhir kuis", "Siswa menilai umpan balik yang mereka terima"], correctAnswer: "Sistem menyesuaikan kesulitan soal atau petunjuk berdasarkan respons siswa", rationale: "Adaptivitas adalah kunci personalisasi, memastikan setiap pembelajar tetap berada dalam zona tantangan optimal mereka." },
+                    { question: "Fase 'Analisis' dalam model ADDIE bertujuan untuk...", options: ["Membuat prototipe materi pembelajaran", "Mengevaluasi dampak pelatihan terhadap bisnis", "Mengidentifikasi masalah, tujuan, dan karakteristik audiens", "Menyampaikan materi kepada peserta"], correctAnswer: "Mengidentifikasi masalah, tujuan, dan karakteristik audiens", rationale: "Analisis adalah fondasi dari seluruh proses, di mana masalah didefinisikan secara jelas sebelum solusi apa pun dirancang." },
+                    { question: "Kegagalan transfer pembelajaran sering terjadi karena...", options: ["Materi pelatihan terlalu sulit", "Kurangnya dukungan lingkungan di tempat kerja setelah pelatihan", "Peserta tidak menyukai instruktur", "Pelatihan dilakukan secara online"], correctAnswer: "Kurangnya dukungan lingkungan di tempat kerja setelah pelatihan", rationale: "Tanpa penguatan dari manajer, rekan kerja, dan sistem, keterampilan baru yang dipelajari dalam pelatihan cenderung tidak akan diterapkan." },
+                    { question: "Kemampuan merancang sebuah eksperimen untuk menguji sebuah hipotesis berada di level Taksonomi Bloom...", options: ["Menganalisis", "Mengevaluasi", "Mengaplikasi", "Mencipta"], correctAnswer: "Mencipta", rationale: "Merancang sesuatu yang baru, seperti sebuah rencana atau prosedur (eksperimen), adalah inti dari level 'Mencipta'." },
+                    { question: "Seorang desainer menggunakan gamifikasi untuk membuat proses onboarding karyawan baru lebih menarik. Ini adalah strategi untuk meningkatkan...", options: ["Efektivitas saja", "Efisiensi saja", "Daya Tarik (Appeal)", "Transfer pembelajaran"], correctAnswer: "Daya Tarik (Appeal)", rationale: "Gamifikasi secara langsung menargetkan motivasi dan keterlibatan pembelajar, yang merupakan komponen utama dari daya tarik." },
+                    { question: "Manakah dari berikut ini yang merupakan intervensi NON-INSTRUKSIONAL dalam HPT?", options: ["Sebuah kursus e-learning", "Sebuah lokakarya tatap muka", "Sebuah daftar periksa (job aid) untuk prosedur kompleks", "Sebuah video tutorial"], correctAnswer: "Sebuah daftar periksa (job aid) untuk prosedur kompleks", rationale: "Job aid adalah alat bantu kinerja yang digunakan 'saat bekerja', bukan intervensi yang dirancang untuk 'mengajarkan' sebelumnya." },
+                    { question: "Ketika sebuah organisasi beralih ke 'Generative Learning', fokus utamanya adalah...", options: ["Memperbaiki kesalahan saat ini", "Menginterogasi sistem yang ada", "Menciptakan budaya inovasi dan adaptasi berkelanjutan", "Mematuhi standar industri"], correctAnswer: "Menciptakan budaya inovasi dan adaptasi berkelanjutan", rationale: "Generative learning adalah tingkat tertinggi, di mana organisasi tidak hanya memecahkan masalah tetapi secara proaktif menciptakan masa depannya." },
+                    { question: "Pernyataan 'Teknologi pendidikan adalah proses, bukan produk' menekankan pentingnya...", options: ["Memiliki perangkat keras terbaru", "Metode sistematis dan desain yang cermat", "Membuat materi yang terlihat bagus secara visual", "Menggunakan software yang paling populer"], correctAnswer: "Metode sistematis dan desain yang cermat", rationale: "Pernyataan ini menggarisbawahi bahwa nilai sejati teknologi pendidikan terletak pada 'soft technology'—proses berpikir dan desain—bukan hanya pada 'hard technology' (alat)." },
+                    { question: "Menghubungkan pelajaran tentang persentase dengan skenario diskon belanja di dunia nyata adalah strategi ARCS untuk meningkatkan...", options: ["Attention", "Relevance", "Confidence", "Satisfaction"], correctAnswer: "Relevance", rationale: "Membuat koneksi ke kehidupan sehari-hari atau tujuan pribadi siswa membuat materi terasa relevan dan penting untuk dipelajari." },
+                    { question: "Studi Kasus: Teknisi lapangan sering salah memasang komponen X. Analisis menunjukkan bahwa manualnya membingungkan. Solusi HPT yang paling efisien adalah...", options: ["Mengadakan pelatihan ulang selama seminggu untuk semua teknisi", "Membuat video tutorial berdurasi satu jam", " Mendesain ulang manual dengan instruksi visual langkah-demi-langkah (job aid)", "Memberi sanksi kepada teknisi yang melakukan kesalahan"], correctAnswer: " Mendesain ulang manual dengan instruksi visual langkah-demi-langkah (job aid)", rationale: "Masalahnya adalah sumber daya informasi yang buruk. Memperbaiki sumber daya (job aid) adalah solusi yang lebih cepat, lebih murah, dan lebih tepat sasaran daripada pelatihan besar-besaran." },
+                    { question: "Evaluasi Kirkpatrick Level 3 mengukur...", options: ["Reaksi peserta terhadap pelatihan", "Tingkat pembelajaran pengetahuan dan keterampilan", "Perubahan perilaku di tempat kerja", "Dampak pada hasil bisnis (ROI)"], correctAnswer: "Perubahan perilaku di tempat kerja", rationale: "Level 3 secara spesifik melihat apakah pembelajaran benar-benar ditransfer dan diterapkan dalam pekerjaan sehari-hari." },
+                    { question: "Perbedaan utama antara 'Double-Loop Learning' dan 'Single-Loop Learning' adalah...", options: ["Double-loop lebih cepat daripada single-loop", "Double-loop mempertanyakan asumsi yang mendasari, sementara single-loop tidak", "Single-loop hanya untuk individu, double-loop untuk organisasi", "Double-loop selalu menggunakan teknologi, single-loop tidak"], correctAnswer: "Double-loop mempertanyakan asumsi yang mendasari, sementara single-loop tidak", rationale: "Double-loop learning melangkah lebih jauh dengan menantang 'mengapa' di balik masalah, bukan hanya memperbaiki 'apa'." },
+                    { question: "Praktik di mana siswa secara aktif didorong untuk bertanya 'mengapa' dan 'bagaimana' tentang materi yang mereka pelajari disebut...", options: ["Praktik yang disengaja (Deliberate Practice)", "Interogasi elaboratif", "Penilaian formatif", "Pembelajaran permukaan (Surface Learning)"], correctAnswer: "Interogasi elaboratif", rationale: "Interogasi elaboratif adalah strategi kognitif yang memaksa pembelajar untuk memproses informasi secara mendalam dengan menghubungkannya pada pengetahuan yang sudah ada." },
+                    { question: "Studi Kasus: Sebuah perusahaan perangkat lunak meluncurkan fitur baru, tetapi tim penjualan tidak menawarkannya kepada klien. Analisis HPT menemukan bahwa para penjual tidak yakin bagaimana fitur tersebut bekerja. Ini adalah masalah...", options: ["Insentif", "Lingkungan/Alat", "Pengetahuan/Keterampilan", "Motivasi"], correctAnswer: "Pengetahuan/Keterampilan", rationale: "Ketidakyakinan tentang cara kerja fitur menunjukkan adanya kesenjangan pengetahuan. Dalam kasus ini, intervensi instruksional seperti pelatihan atau job aid akan sesuai." },
+                    { question: "Seorang desainer instruksional membuat prototipe cepat dari sebuah aplikasi e-learning dan mengujinya dengan beberapa pengguna untuk mendapatkan umpan balik awal. Fase model ADDIE manakah yang paling sesuai dengan aktivitas ini?", options: ["Analisis (Analysis)", "Desain (Design)", "Pengembangan (Development)", "Evaluasi (Evaluation)"], correctAnswer: "Pengembangan (Development)", rationale: "Pembuatan prototipe dan pengujian pengguna awal (evaluasi formatif) adalah bagian inti dari fase Pengembangan, di mana ide-ide dari fase Desain diwujudkan dan diuji." },
+                    { question: "Tujuan utama dari 'praktik reflektif' bagi seorang guru adalah untuk...", options: ["Mendokumentasikan setiap aktivitas kelas untuk administrator", "Menggunakan data dan observasi untuk secara sistematis meningkatkan pengajaran", "Memastikan semua siswa mendapatkan nilai yang sama", "Mengikuti kurikulum tanpa penyimpangan"], correctAnswer: "Menggunakan data dan observasi untuk secara sistematis meningkatkan pengajaran", rationale: "Praktik reflektif mengubah pengajaran menjadi proses penyelidikan, di mana guru adalah peneliti dari praktiknya sendiri untuk perbaikan berkelanjutan." },
+                    { question: "Manakah yang paling akurat mendeskripsikan hubungan antara Teknologi Pendidikan dan HPT?", options: ["Keduanya adalah hal yang sama persis", "HPT adalah cabang dari Teknologi Pendidikan", "Teknologi Pendidikan adalah salah satu komponen dalam kerangka kerja HPT yang lebih luas", "Keduanya tidak berhubungan sama sekali"], correctAnswer: "Teknologi Pendidikan adalah salah satu komponen dalam kerangka kerja HPT yang lebih luas", rationale: "HPT adalah 'payung' yang lebih besar yang mencakup berbagai intervensi kinerja. Intervensi instruksional, yang merupakan domain utama Teknologi Pendidikan, adalah salah satu alat penting dalam kotak perkakas HPT." },
+                    { question: "Seorang siswa yang bisa menjelaskan perbedaan antara 'deep learning' dan 'surface learning' dengan menggunakan analoginya sendiri berada pada tingkat Taksonomi Bloom...", options: ["Mengingat (Remember)", "Memahami (Understand)", "Mengaplikasi (Apply)", "Mencipta (Create)"], correctAnswer: "Memahami (Understand)", rationale: "Menjelaskan kembali sebuah konsep dengan kata-kata sendiri atau melalui analogi adalah indikator klasik dari pemahaman." },
+                    { question: "Model diagnostik HPT seperti 'Behavior Engineering Model' dari Gilbert membantu praktisi untuk...", options: ["Langsung merancang materi pelatihan", "Secara sistematis memeriksa semua faktor yang mungkin mempengaruhi kinerja", "Mengevaluasi ROI dari sebuah intervensi", "Memilih platform e-learning terbaik"], correctAnswer: "Secara sistematis memeriksa semua faktor yang mungkin mempengaruhi kinerja", rationale: "Model-model ini berfungsi sebagai daftar periksa diagnostik untuk memastikan tidak ada kemungkinan penyebab masalah kinerja yang terlewatkan selama analisis." },
+                    { question: "Manakah dari berikut ini yang BUKAN merupakan komponen dari Model Motivasi ARCS Keller?", options: ["Attention (Perhatian)", "Relevance (Relevansi)", "Collaboration (Kolaborasi)", "Satisfaction (Kepuasan)"], correctAnswer: "Collaboration (Kolaborasi)", rationale: "Model ARCS terdiri dari Attention, Relevance, Confidence, dan Satisfaction. Kolaborasi adalah strategi instruksional, bukan komponen inti model motivasi ini." },
+                    { question: "Seorang instruktur memberikan kuis singkat di awal dan akhir sesi pelatihan yang tidak dinilai, tetapi memberikan umpan balik langsung. Dalam model ARCS, ini terutama mendukung...", options: ["Relevance", "Confidence", "Attention", "Satisfaction"], correctAnswer: "Confidence", rationale: "Umpan balik yang sering dan kesempatan untuk melihat kemajuan membantu membangun kepercayaan diri (Confidence) pembelajar terhadap kemampuan mereka." },
+                    { question: "Manakah yang merupakan contoh 'Deep Learning'?", options: ["Menyebutkan 7 ibu kota negara ASEAN", "Menjelaskan dengan kata-kata sendiri proses fotosintesis", "Merancang sebuah proyek kampanye sosial berdasarkan prinsip pemasaran", "Menghafal tabel perkalian"], correctAnswer: "Merancang sebuah proyek kampanye sosial berdasarkan prinsip pemasaran", rationale: "Merancang proyek baru (Mencipta) yang didasarkan pada pemahaman prinsip (Menganalisis, Mengaplikasi) menunjukkan pemahaman yang mendalam dan terintegrasi." },
+                    { question: "Kesimpulan akhir dari pendekatan HPT adalah bahwa...", options: ["Semua masalah kinerja dapat diselesaikan dengan pelatihan yang lebih baik.", "Peningkatan kinerja adalah tanggung jawab individu semata.", "Solusi paling efektif seringkali bersifat non-instruksional dan menargetkan sistem kerja.", "Teknologi adalah satu-satunya pendorong peningkatan produktivitas."], correctAnswer: "Solusi paling efektif seringkali bersifat non-instruksional dan menargetkan sistem kerja.", rationale: "HPT mengajarkan kita untuk melihat melampaui individu dan menganalisis sistem secara keseluruhan, di mana perbaikan proses, alat, atau insentif seringkali lebih berdampak daripada pelatihan." }
+                ];
+
+                let shuffledQuizData = [];
+                const startBtn = document.getElementById('start-btn');
+                const startContainer = document.getElementById('start-quiz-container');
+                const quizContainer = document.getElementById('quiz-container');
+                const questionNumberEl = document.getElementById('question-number');
+                const questionTextEl = document.getElementById('question-text');
+                const answerOptionsEl = document.getElementById('answer-options');
+                const nextBtn = document.getElementById('next-btn');
+                const feedbackContainerEl = document.getElementById('feedback-container');
+                const resultsContainer = document.getElementById('results-container');
+                const finalScoreEl = document.getElementById('final-score');
+                const totalQuestionsEl = document.getElementById('total-questions');
+                const restartBtn = document.getElementById('restart-btn');
+                const scoreDisplayEl = document.getElementById('score-display');
+                const resultMessageEl = document.getElementById('result-message');
+                let currentQuestionIndex = 0;
+                let score = 0;
+                let selectedAnswer = null;
+                let answerChecked = false;
+                
+                function shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                }
+
+                function startQuiz() {
+                    shuffledQuizData = [...fullQuizData];
+                    shuffleArray(shuffledQuizData);
+                    
+                    currentQuestionIndex = 0;
+                    score = 0;
+                    resultsContainer.classList.add('hidden');
+                    startContainer.classList.add('hidden');
+                    quizContainer.classList.remove('hidden');
+                    nextBtn.disabled = true;
+                    showQuestion();
+                    updateScoreDisplay();
+                }
+
+                function showQuestion() {
+                    answerChecked = false;
+                    selectedAnswer = null;
+                    feedbackContainerEl.classList.add('hidden');
+                    nextBtn.textContent = 'Periksa Jawaban';
+                    nextBtn.disabled = true;
+                    const currentQuestion = shuffledQuizData[currentQuestionIndex];
+                    questionNumberEl.textContent = `Soal ${currentQuestionIndex + 1} dari ${shuffledQuizData.length}`;
+                    questionTextEl.textContent = currentQuestion.question;
+                    answerOptionsEl.innerHTML = '';
+                    const shuffledOptions = [...currentQuestion.options];
+                    shuffleArray(shuffledOptions);
+                    shuffledOptions.forEach(option => {
+                        const button = document.createElement('button');
+                        button.textContent = option;
+                        button.classList.add('quiz-option', 'w-full', 'p-4', 'border', 'rounded-lg', 'text-left', 'hover:bg-sky-100', 'focus:outline-none', 'focus:ring-2', 'focus:ring-sky-300');
+                        button.onclick = () => selectAnswer(option, button);
+                        answerOptionsEl.appendChild(button);
+                    });
+                }
+
+                function selectAnswer(option, button) {
+                    if (answerChecked) return;
+                    Array.from(answerOptionsEl.children).forEach(child => child.classList.remove('selected'));
+                    button.classList.add('selected');
+                    selectedAnswer = option;
+                    nextBtn.disabled = false;
+                }
+
+                function checkAnswer() {
+                    answerChecked = true;
+                    const correctSound = document.getElementById('correctSound');
+                    const incorrectSound = document.getElementById('incorrectSound');
+                    const currentQuestion = shuffledQuizData[currentQuestionIndex];
+                    const correct = selectedAnswer === currentQuestion.correctAnswer;
+                    if (correct) {
+                        score++;
+                        if (correctSound && correctSound.src) correctSound.play();
+                    } else {
+                        if (incorrectSound && incorrectSound.src) incorrectSound.play();
+                    }
+                    updateScoreDisplay();
+                    Array.from(answerOptionsEl.children).forEach(button => {
+                        button.disabled = true;
+                        const optionText = button.textContent;
+                        if (optionText === currentQuestion.correctAnswer) {
+                            button.classList.add('correct');
+                        } else if (optionText === selectedAnswer && !correct) {
+                            button.classList.add('incorrect');
+                        }
+                    });
+                    feedbackContainerEl.innerHTML = `<strong class='block mb-1'>Rasional:</strong> ${currentQuestion.rationale}`;
+                    feedbackContainerEl.classList.remove('hidden');
+                    if (currentQuestionIndex < shuffledQuizData.length - 1) {
+                        nextBtn.textContent = 'Soal Berikutnya';
+                    } else {
+                        nextBtn.textContent = 'Lihat Hasil';
+                    }
+                }
+                
+                function nextQuestion() {
+                     currentQuestionIndex++;
+                     if (currentQuestionIndex < shuffledQuizData.length) {
+                         showQuestion();
+                     } else {
+                         showResults();
+                     }
+                }
+
+                function showResults() {
+                    quizContainer.classList.add('hidden');
+                    resultsContainer.classList.remove('hidden');
+                    finalScoreEl.textContent = score;
+                    totalQuestionsEl.textContent = shuffledQuizData.length;
+                    const percentage = (score / shuffledQuizData.length) * 100;
+                    if (percentage >= 90) {
+                        resultMessageEl.textContent = "Luar biasa! Pemahaman Anda sangat mendalam.";
+                    } else if (percentage >= 70) {
+                        resultMessageEl.textContent = "Kerja bagus! Anda telah menguasai sebagian besar konsep.";
+                    } else if (percentage >= 50) {
+                        resultMessageEl.textContent = "Cukup baik! Ada beberapa area yang bisa dipelajari kembali.";
+                    } else {
+                        resultMessageEl.textContent = "Tidak apa-apa, coba pelajari lagi materinya dan ulangi kuis ini.";
+                    }
+                }
+
+                function updateScoreDisplay() {
+                    scoreDisplayEl.textContent = `Skor: ${score}`;
+                }
+                
+                startBtn.addEventListener('click', startQuiz);
+                nextBtn.addEventListener('click', () => {
+                    if (answerChecked) {
+                        nextQuestion();
+                    } else {
+                        checkAnswer();
+                    }
+                });
+                restartBtn.addEventListener('click', () => {
+                    resultsContainer.classList.add('hidden');
+                    startContainer.classList.remove('hidden');
+                });
+            }
+
+            // --- CHART CREATION FUNCTIONS ---
+            function createBloomChart() {
+                if (bloomChart) return;
+                const ctx = document.getElementById('bloomChart')?.getContext('2d');
+                if(!ctx) return;
+                const bloomData = {
+                    labels: ['Mengingat', 'Memahami', 'Mengaplikasi', 'Menganalisis', 'Mengevaluasi', 'Mencipta'],
+                    datasets: [{
+                        data: [1, 2, 3, 4, 5, 6],
+                        backgroundColor: ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#0ea5e9'],
+                    }]
+                };
+                const bloomDescriptions = [ 'Mengingat kembali fakta dan konsep dasar.', 'Menjelaskan ide atau konsep.', 'Menggunakan informasi dalam situasi baru.', 'Memecah informasi menjadi bagian-bagian untuk dianalisis.', 'Membuat penilaian atau keputusan berdasarkan kriteria.', 'Menghasilkan ide atau produk baru.' ];
+                
+                bloomChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: bloomData,
+                    options: {
+                        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => bloomDescriptions[c.dataIndex] } } },
+                        scales: { x: { display: false }, y: { beginAtZero: true, ticks: { font: { size: window.innerWidth < 640 ? 10 : 12 } } } }
+                    }
+                });
+            }
+
+            function createArcsChart() {
+                if (arcsChart) arcsChart.destroy();
+                const ctx = document.getElementById('arcsChart')?.getContext('2d');
+                if (!ctx) return;
+                
+                const arcsData = {
+                    labels: ['Attention', 'Relevance', 'Confidence', 'Satisfaction'],
+                    datasets: [{ data: [25, 25, 25, 25], backgroundColor: ['#38bdf8', '#34d399', '#facc15', '#fb923c'] }]
+                };
+                const arcsDetailsData = [
+                    { title: "Attention (Perhatian)", description: "Menarik dan menjaga perhatian siswa melalui variasi, humor, atau elemen kejutan." },
+                    { title: "Relevance (Relevansi)", description: "Menghubungkan materi dengan kebutuhan, minat, dan pengalaman siswa agar terasa penting." },
+                    { title: "Confidence (Kepercayaan Diri)", description: "Membantu siswa merasa yakin bahwa mereka bisa berhasil melalui tujuan yang jelas dan tantangan yang sesuai." },
+                    { title: "Satisfaction (Kepuasan)", description: "Memberikan rasa pencapaian atau imbalan setelah belajar, baik intrinsik maupun ekstrinsik." },
+                ];
+                
+                arcsChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: arcsData,
+                    options: {
+                        responsive: true, maintainAspectRatio: false, cutout: '50%',
+                        plugins: { legend: { display: false }, tooltip: { enabled: true } },
+                        onClick: (e, els) => {
+                            if (els.length > 0) {
+                                const i = els[0].index;
+                                const detailsEl = document.getElementById('arcs-details');
+                                if(detailsEl) detailsEl.innerHTML = `<h5 class="font-semibold text-sky-800">${arcsDetailsData[i].title}</h5><p>${arcsDetailsData[i].description}</p>`;
+                            }
+                        }
+                    }
+                });
+                const initialDetails = document.getElementById('arcs-details');
+                if(initialDetails) initialDetails.innerHTML = `<h5 class="font-semibold text-sky-800">Model ARCS</h5><p>Klik pada segmen diagram untuk melihat penjelasan.</p>`;
+            }
+
+            
+            setupTabs();
+            setupLearnerPanel();
+            setupProfessionalPanel();
+            setupOrganizationPanel();
+            setupVideoSelector();
+            setupQuiz();
+        });
+    </script>
+</body>
+</html>
+
